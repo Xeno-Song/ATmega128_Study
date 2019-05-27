@@ -1,0 +1,66 @@
+#include "LCD_Control.h"
+
+char Hours, Minutes, Seconds;
+
+void WriteTime()
+{
+	char tmp;
+	Set_Data_Memory_Address(0x00);
+
+	tmp = Hours;
+	LCD_Data('0' + (char)(tmp / 10));
+	LCD_Data('0' + (char)(tmp % 10));
+
+	LCD_Data(':');
+
+	tmp = Minutes;
+	LCD_Data('0' + (char)(tmp / 10));
+	LCD_Data('0' + (char)(tmp % 10));
+
+	LCD_Data(':');
+
+	tmp = Seconds;
+	LCD_Data('0' + (char)(tmp / 10));
+	LCD_Data('0' + (char)(tmp % 10));
+}
+
+int main()
+{
+	Hours = Minutes = Seconds = 0;
+
+	DDRA = 0xFF;
+	DDRC = 0xFF;
+
+	InitLCD();
+
+	SREG = 0x80;
+	//LCD_WriteString("TESTING");
+
+	while(1)
+	{
+		WriteTime();
+
+		Seconds++;
+		if(Seconds == 60)
+		{
+			Minutes++;
+			Seconds = 0;
+
+			if(Minutes == 60)
+			{
+				Hours++;
+				Minutes = 0;
+			}
+		}
+
+		_delay_ms(125);
+	}	
+
+	while(1);
+}
+
+
+//Time Show
+
+
+
