@@ -40,17 +40,7 @@ char InputProcess()
 	{
 		PrevKey = CurrKey;
 
-		if(CurrKey == 0x0001)
-			return 1;
-			
-		if(CurrKey == 0x0010)
-			return 2;
-		
-		if(CurrKey == 0x0100)
-			return 3;
-			
-		if(CurrKey == 0x1000)
-			return 4;
+		return 1;
 	}
 
 	return 0;

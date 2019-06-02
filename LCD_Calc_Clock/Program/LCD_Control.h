@@ -1,6 +1,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#ifndef __LCD_CONTROL_H__
+#define __LCD_CONTROL_H__
+
 #define LCD_STRU		PORTC
 #define LCD_DATA		PORTA
 
@@ -65,7 +68,7 @@ void InitLCD()
 	LCD_Command(0x06);		//Set Entrymode
 }
 
-void Set_Data_Memory_Address(char address)
+void SetWritePos(char address)
 {
 	LCD_Command(address | 0x80);
 }
@@ -79,19 +82,23 @@ void LCD_WriteString(char* str)
 	}
 }
 
-void LCD_WriteNum(unsigned char Num)
+void LCD_NumPrintLoop(long Num)
 {
 	if(Num >= 10)
-	{
-		if(Num >= 100)
-		{
-			LCD_Data((Num / 100) + '0');
-		}
-
-		LCD_Data((Num /10) % 10 + '0');
-	}
+		LCD_NumPrintLoop(Num / 10);
 
 	LCD_Data(Num % 10 + '0');
-
-	LCD_WriteString("   ");
 }
+
+void LCD_WriteNum(long Num)
+{
+	if(Num < 0)
+	{
+		LCD_Data('-');
+		Num *= -1;
+	}
+
+	LCD_NumPrintLoop(Num);
+}
+
+#endif

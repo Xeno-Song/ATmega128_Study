@@ -1,11 +1,11 @@
 ###############################################################################
-# Makefile for the project 0401
+# Makefile for the project LCD_CALC
 ###############################################################################
 
 ## General Flags
-PROJECT = 0401
+PROJECT = LCD_CALC
 MCU = atmega128
-TARGET = 0401.elf
+TARGET = LCD_CALC.elf
 CC = avr-gcc
 
 CPP = avr-g++
@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99                   -DF_CPU=16000000UL -O0 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2 -std=gnu99     -DF_CPU=16000000UL -O0 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -25,7 +25,7 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS +=  -Wl,-Map=0401.map
+LDFLAGS +=  -Wl,-Map=LCD_CALC.map
 
 
 ## Intel Hex file production flags
@@ -37,16 +37,16 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = 0401.o 
+OBJECTS = LCD_CALC.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
 
 ## Build
-all: $(TARGET) 0401.hex 0401.eep 0401.lss size
+all: $(TARGET) LCD_CALC.hex LCD_CALC.eep LCD_CALC.lss size
 
 ## Compile
-0401.o: ../0401.c
+LCD_CALC.o: ../LCD_CALC.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link
@@ -69,7 +69,7 @@ size: ${TARGET}
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) 0401.elf dep/* 0401.hex 0401.eep 0401.lss 0401.map
+	-rm -rf $(OBJECTS) LCD_CALC.elf dep/* LCD_CALC.hex LCD_CALC.eep LCD_CALC.lss LCD_CALC.map
 
 
 ## Other dependencies
